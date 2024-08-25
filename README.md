@@ -1,6 +1,7 @@
 # ML Model Visualizer
 
-Welcome to the **ML Model Visualizer** project! This interactive tool allows users to explore and understand various machine learning models and their performance. It provides comprehensive visualization and hyperparameter tuning options for both classification and regression tasks.
+Explore and visualize machine learning models with ease using this **ML Model Visualizer!** 
+The ML Model Visualizer is an interactive Streamlit application designed to explore different datasets and machine learning models. It allows users to visualize the effects of hyperparameter tuning on both classification and regression models. Users can select datasets, choose from a range of models, and immediately see how changes in hyperparameters impact model performance. This tool helps in understanding how different settings influence model outcomes and aids in selecting the best configuration for a given problem.
 
 ## Overview
 
