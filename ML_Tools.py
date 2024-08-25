@@ -53,10 +53,28 @@ def get_classifier(model_name):
         C = st.sidebar.number_input('C (Inverse Regularization Strength)', 0.01, 10.0, 1.0, step=0.01)
         max_iter = st.sidebar.slider('Maximum Iterations', 100, 500, 100, step=10)
         solver = st.sidebar.selectbox('Solver', ['liblinear', 'lbfgs', 'newton-cg', 'sag', 'saga'])
-        penalty = st.sidebar.selectbox('Penalty', ['l2', 'l1', 'elasticnet', 'none'])
         class_weight = st.sidebar.selectbox('Class Weight', [None, 'balanced'])
     
-        model = LogisticRegression(C=C, max_iter=max_iter, solver=solver, penalty=penalty, class_weight=class_weight)
+        # Initialize penalty and l1_ratio based on solver
+        penalty = 'l2'  # Default penalty
+        l1_ratio = None  # Default for solvers that don't use ElasticNet
+    
+        if solver == 'saga':
+            penalty = st.sidebar.selectbox('Penalty', ['l2', 'l1', 'elasticnet',None])
+            l1_ratio = st.sidebar.slider('l1_ratio', 0.01, 1.0, 0.5, step=0.01)
+        elif solver == 'lbfgs' or solver == 'sag' or solver=='newton-cg':
+            penalty = st.sidebar.selectbox('Penalty', ['l2',None])
+
+        else:
+            penalty = st.sidebar.selectbox('Penalty', ['l2', 'l1'])
+    
+        # Create Logistic Regression model
+        if solver == 'saga' and penalty == 'elasticnet':
+            model = LogisticRegression(C=C, max_iter=max_iter, solver=solver, penalty=penalty, l1_ratio=l1_ratio, class_weight=class_weight)
+        else:
+            model = LogisticRegression(C=C, max_iter=max_iter, solver=solver, penalty=penalty, class_weight=class_weight)
+        
+    
 
         
     elif model_name == 'K-Nearest Neighbors':
