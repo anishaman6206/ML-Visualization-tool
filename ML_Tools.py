@@ -1007,8 +1007,11 @@ if problem_type == 'Regression':
 }
 
 # Display documentation link
-    if model_choice in documentation_links:
-        st.sidebar.markdown(f"[Documentation for {model_choice}]({documentation_links[model_choice]})")
+    if st.sidebar.button(f'View Documentation of {model_choice}'):
+        if model_choice in documentation_links:
+            st.sidebar.markdown(f"[Documentation for {model_choice}]({documentation_links[model_choice]})")
+        else:
+            st.sidebar.markdown("No documentation available for the selected model.")
     model = get_regressor(model_choice)
     if dataset_choice == 'Boston Housing':
         data['CRIM'].fillna(data['CRIM'].mean(), inplace=True)
