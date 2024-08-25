@@ -855,6 +855,7 @@ regression_datasets = {
 }    
 
 # Sidebar for Problem Type and Dataset Selection
+st.header("Choose different Datasets, Hypertune Models and Visualize the Changes")
 st.sidebar.title("ML Model Visualizer")
 st.sidebar.header('Choose Problem Type')
 problem_type = st.sidebar.selectbox('Problem Type', ['Classification', 'Regression'])
