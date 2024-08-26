@@ -15,8 +15,6 @@ from sklearn.decomposition import PCA
 import plotly.express as px
 
 
-# Import your models
-
 from sklearn.linear_model import LinearRegression, Ridge, Lasso, ElasticNet
 from sklearn.tree import DecisionTreeRegressor
 from sklearn.ensemble import RandomForestRegressor, GradientBoostingRegressor, AdaBoostRegressor, ExtraTreesRegressor
@@ -36,10 +34,9 @@ from sklearn.metrics import mean_squared_error, mean_absolute_error, r2_score
 from sklearn.decomposition import PCA
 from sklearn.inspection import PartialDependenceDisplay
 
-from sklearn.linear_model import LogisticRegression, LinearRegression
 from sklearn.ensemble import RandomForestClassifier, GradientBoostingClassifier, AdaBoostClassifier, ExtraTreesClassifier, RandomForestRegressor
 from sklearn.tree import DecisionTreeClassifier
-from sklearn.svm import SVC, SVR
+
 from sklearn.neighbors import KNeighborsClassifier
 from sklearn.naive_bayes import GaussianNB
 
@@ -68,7 +65,7 @@ def get_classifier(model_name):
         else:
             penalty = st.sidebar.selectbox('Penalty', ['l2', 'l1'])
     
-        # Create Logistic Regression model
+      
         if solver == 'saga' and penalty == 'elasticnet':
             model = LogisticRegression(C=C, max_iter=max_iter, solver=solver, penalty=penalty, l1_ratio=l1_ratio, class_weight=class_weight)
         else:
@@ -243,10 +240,8 @@ def get_regressor(model_name):
     elif model_name == 'Polynomial Regression':
         
         
-        # Degree of the polynomial
         degree = st.sidebar.slider('Polynomial Degree', 1, 10, 2, step=1)
         
-        # Regularization for Linear Regression
         regularization = st.sidebar.selectbox('Regularization', ['None', 'Ridge', 'Lasso'])
         if regularization == 'None':
             model_type = 'Linear Regression'
@@ -257,10 +252,8 @@ def get_regressor(model_name):
             alpha = st.sidebar.slider('Alpha (Lasso)', 0.01, 10.0, 1.0, step=0.01)
             model_type = 'Lasso Regression'
     
-        # Polynomial features
         poly_features = PolynomialFeatures(degree=degree)
         
-        # Choose the linear model
         if model_type == 'Linear Regression':
             model = LinearRegression()
         elif model_type == 'Ridge Regression':
@@ -474,7 +467,7 @@ def classification(data,label_mapping,model_choice,model,X,y):
         model.fit(X_vis, y)
         x_min, x_max = X_vis[:, 0].min() - 1, X_vis[:, 0].max() + 1
         y_min, y_max = X_vis[:, 1].min() - 1, X_vis[:, 1].max() + 1
-        h=0.02  # Step size in the meshgrid
+        
         xx, yy = np.meshgrid(np.arange(x_min, x_max, 1.0), np.arange(y_min, y_max, 1.0))
         Z = model.predict(np.c_[xx.ravel(), yy.ravel()])
         Z = Z.reshape(xx.shape)
@@ -483,13 +476,11 @@ def classification(data,label_mapping,model_choice,model,X,y):
         contour = ax1.contourf(xx, yy, Z, alpha=0.8, cmap='coolwarm')  # Choose an appropriate colormap
         scatter = ax1.scatter(X_vis[:, 0], X_vis[:, 1], c=y, edgecolors='k', cmap='coolwarm', marker='o')
         
-        # Get unique class labels
         unique_classes = np.unique(y)
         
-        # Map labels using label_mapping
         labels = [label_mapping.get(i, str(i)) for i in unique_classes]
         
-        # Create legend handles with colors corresponding to scatter
+       
         handles = [plt.Line2D([0], [0], marker='o', color='w', markerfacecolor=scatter.cmap(scatter.norm(cls)), markersize=5, label=label) for cls, label in zip(unique_classes, labels)]
         ax1.legend(handles=handles, loc='best', title='Classes')
         ax1.set_title('Decision Boundary')
@@ -515,13 +506,12 @@ def classification(data,label_mapping,model_choice,model,X,y):
         contour = ax1.contourf(xx, yy, Z, alpha=0.8, cmap='coolwarm')
         scatter = ax1.scatter(X_vis[:, 0], X_vis[:, 1], c=y, edgecolors='k', marker='o', cmap='coolwarm')
     
-        # Get unique class labels
+    
         unique_classes = np.unique(y)
-        
-        # Map labels using label_mapping
+      
         labels = [label_mapping.get(i, str(i)) for i in unique_classes]
         
-        # Create legend handles with colors corresponding to scatter
+    
         handles = [plt.Line2D([0], [0], marker='o', color='w', markerfacecolor=scatter.cmap(scatter.norm(cls)), markersize=5, label=label) for cls, label in zip(unique_classes, labels)]
         
         ax1.legend(handles=handles, loc='best', title='Classes')
@@ -677,7 +667,7 @@ def regression(data,model_choice, model, X, y):
         st.write('Shape of dataset:', X.shape)
     with col2:
         st.write('Number of features:', X.shape[1])
-            # Plot histogram for the target variable
+            
   
 
     X_train, X_test, y_train, y_test = train_test_split(X, y, test_size=0.2, random_state=42)
@@ -718,16 +708,14 @@ def regression(data,model_choice, model, X, y):
     if model_choice == 'Polynomial Regression':
         st.write(f"### {model_choice} - Regression Curve Visualization")
     
-        # Create polynomial features
-        # Create polynomial features
+      
         degree = st.sidebar.slider('Degree', 2, 10, 2)
         poly = PolynomialFeatures(degree=degree)
         X_poly_train = poly.fit_transform(X_train)
         X_poly_test = poly.transform(X_test)
 
     
-        # Apply PCA to reduce features to 2D for visualization
-        # Apply PCA to the polynomial features
+     
         pca = PCA(n_components=2)
         X_train_pca = pca.fit_transform(X_poly_train)
         X_test_pca = pca.transform(X_poly_test)
@@ -829,7 +817,7 @@ def regression(data,model_choice, model, X, y):
         ax1.set_xlabel('Actual')
         ax1.set_ylabel('Predicted')
         st.pyplot(fig1)
-    # Additional visualizations for feature importance, residuals, etc.
+    # Additional visualizations 
     with col2:
         st.write("### Residuals Plot")
         residuals = y_test - predictions
@@ -857,7 +845,7 @@ def regression(data,model_choice, model, X, y):
     st.pyplot(fig) 
 
 st.set_page_config(layout='wide',page_title='ML Viz Tools')
-# Load preloaded datasets
+
 classification_datasets = {
     'Iris': pd.read_csv('Iris.csv'),
     'Diabetes': pd.read_csv('diabetes.csv'),
@@ -938,7 +926,7 @@ if problem_type == 'Classification':
 
     elif dataset_choice == 'Breast Cancer':
         data.drop(columns=['id','concave points_mean'],inplace=True)
-        # Convert all float64 columns to float32
+        
         data = data.apply(lambda col: col.astype(np.float32) if col.dtype == np.float64 else col)
         
         X = data.drop('diagnosis', axis=1)
@@ -1028,8 +1016,7 @@ if problem_type == 'Regression':
      data = data.replace('?', pd.NA)
      data = data.astype(object).where(pd.notnull(data), np.nan)
  
-    # Identify categorical columns
-    # List of categorical and numerical columns
+  
      categorical_columns = [
     'make', 'fuel-type', 'aspiration', 'num-of-doors', 'body-style', 'drive-wheels',
     'engine-location', 'engine-type', 'num-of-cylinders', 'fuel-system'
@@ -1039,7 +1026,6 @@ if problem_type == 'Regression':
      for col in categorical_columns:
         data[col].fillna(data[col].mode()[0], inplace=True)
 
-# List of numerical columns
      numerical_columns = [
     'normalized-losses', 'bore', 'stroke', 'compression-ratio', 'horsepower', 'peak-rpm',
     'city-mpg', 'highway-mpg', 'price'
