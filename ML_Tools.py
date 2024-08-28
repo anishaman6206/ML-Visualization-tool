@@ -850,9 +850,12 @@ classification_datasets = {
     'Iris': pd.read_csv('Iris.csv'),
     'Diabetes': pd.read_csv('diabetes.csv'),
     'Breast Cancer': pd.read_csv('breast-cancer.csv'),
-    'Wine': pd.read_csv('winequality_white.csv')
+    'Wine': pd.read_csv('winequality_white.csv'),
+    'Binary Prediction of Poisonous Mushrooms': pd.read_csv('random_10_percent_sample.xls')
 
 }
+
+
 
 regression_datasets = {
     'Boston Housing': pd.read_csv('HousingData.csv'),
@@ -923,6 +926,12 @@ if problem_type == 'Classification':
         y = data['Outcome']
         # Dictionary for label mapping
         label_mapping = {0: 'Non-Diabetic', 1: 'Diabetic'}
+
+    elif dataset_choice == 'Binary Prediction of Poisonous Mushrooms':
+        X = data.drop(columns=['class'])
+        data['class'] = pd.Categorical(data['class'])
+        y = data['class'].cat.codes
+        label_mapping = {0: 'p', 1: 'e'}
 
     elif dataset_choice == 'Breast Cancer':
         data.drop(columns=['id','concave points_mean'],inplace=True)
