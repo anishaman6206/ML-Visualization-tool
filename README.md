@@ -7,7 +7,7 @@ The ML Model Visualizer is an interactive Streamlit application designed to expl
 
 The ML Model Visualizer lets you:
 
-- **Choose from 6 Downloadable Datasets**: Access and experiment with diverse datasets suitable for classification and regression tasks.
+- **Choose from 7 Downloadable Datasets**: Access and experiment with diverse datasets suitable for classification and regression tasks.
 - **Visualize 20+ Models**: Includes models such as Logistic Regression, K-Nearest Neighbors, Decision Trees, Random Forest, and more. Detailed documentation links are provided for each model.
 - **Tune 100+ Hyperparameters**: Fine-tune models with a wide range of hyperparameters and perform cross-validation to optimize model performance.
 - **Visualize Model Performance**: Use various visualization techniques including decision boundaries, tree plots, regression plots, heatmaps, and more to understand model behavior.
